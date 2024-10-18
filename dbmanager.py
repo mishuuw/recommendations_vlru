@@ -12,9 +12,10 @@ class usersDB:
     def executequery(query):
         db = sqlite3.connect('users.db')
         c = db.cursor()
-        c.execute(query)
+        result = c.execute(query).fetchall()
         db.commit()
         db.close()
+        return result
 
     @classmethod
     def summon(cls):
@@ -39,7 +40,7 @@ class usersDB:
             # ---- inner vl.ru hash generation logic ----
             cls.executequery(
                 f"""INSERT INTO userinfo VALUES ("{userid}", "{username}", "{email}", "{password}")""")
-            return True
+            return dict(userid=userid, username=username, email=email, password=password)
         except Exception as e:
             raise Error(e)
 
@@ -53,10 +54,28 @@ class usersDB:
             raise Error(e)
 
     @classmethod
+    def get_favorites(cls, userid):
+        try:
+            result = cls.executequery(f"""SELECT eventid FROM favorites WHERE userid == "{userid}" """)
+            result = [row[0] for row in result]
+            return result
+        except Exception as e:
+            raise Error(e)
+
+    @classmethod
     def add_to_purchases(cls, userid, eventid):
         try:
             cls.executequery(f"""INSERT INTO purchases VALUES ("{userid}", "{eventid}")""")
             return True
+        except Exception as e:
+            raise Error(e)
+
+    @classmethod
+    def get_purchases(cls, userid):
+        try:
+            result = cls.executequery(f"""SELECT eventid FROM purchases WHERE userid == "{userid}" """)
+            result = [row[0] for row in result]
+            return result
         except Exception as e:
             raise Error(e)
 

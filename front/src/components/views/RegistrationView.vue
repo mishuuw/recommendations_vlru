@@ -91,7 +91,7 @@
         if (!this.errors.username && !this.errors.email && !this.errors.password) {
           console.log("Form data:", this.form);
 
-          axios.post('http://localhost:5000/registration', this.form)
+          axios.post('http://localhost:5000/register', this.form)
             .then((response) => {
               console.log(response);
             })
