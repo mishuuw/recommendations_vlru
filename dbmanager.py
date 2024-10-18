@@ -6,45 +6,65 @@ from webbrowser import Error
 
 class usersDB:
     def __init__(self):
-        self.db = sqlite3.connect('users')
         self.summon()
 
-    def summon(self):
-        c = self.db.cursor()
-        c.execute("""CREATE TABLE IF NOT EXISTS userinfo(
+    @staticmethod
+    def executequery(query):
+        db = sqlite3.connect('users.db')
+        c = db.cursor()
+        c.execute(query)
+        db.commit()
+        db.close()
+
+    @classmethod
+    def summon(cls):
+        cls.executequery("""CREATE TABLE IF NOT EXISTS userinfo(
                 userid text,
                 username text,
                 email text,
                 password text)""")
-        c.execute("""CREATE TABLE IF NOT EXISTS favorites(
+        cls.executequery("""CREATE TABLE IF NOT EXISTS favorites(
                 userid text,
                 eventid text)""")
-        c.execute("""CREATE TABLE IF NOT EXISTS purchases(
+        cls.executequery("""CREATE TABLE IF NOT EXISTS purchases(
                 userid text,
                 eventid text)""")
 
-    def register_user(self, username, email, password):
+    @classmethod
+    def register_user(cls, username, email, password):
         try:
+            # ---- inner vl.ru hash generation logic ----
             alphabet = string.ascii_letters + string.digits
             userid = ''.join([secrets.choice(alphabet) for i in range(32)])
-            c = self.db.cursor()
-            c.execute(f"""INSERT INTO userinfo VALUES ("{userid}", "{username}", "{email}", "{password}")""")
+            # ---- inner vl.ru hash generation logic ----
+            cls.executequery(
+                f"""INSERT INTO userinfo VALUES ("{userid}", "{username}", "{email}", "{password}")""")
             return True
         except Exception as e:
             raise Error(e)
 
-    def add_to_favorites(self, userid, eventid):
+    @classmethod
+    def add_to_favorites(cls, userid, eventid):
         try:
-            c = self.db.cursor()
-            c.execute(f"""INSERT INTO favorites VALUES ("{userid}", "{eventid}")""")
+            cls.executequery(
+                f"""INSERT INTO favorites VALUES ("{userid}", "{eventid}")""")
             return True
         except Exception as e:
             raise Error(e)
 
-    def add_to_purchases(self, userid, eventid):
+    @classmethod
+    def add_to_purchases(cls, userid, eventid):
         try:
-            c = self.db.cursor()
-            c.execute(f"""INSERT INTO purchases VALUES ("{userid}", "{eventid}")""")
+            cls.executequery(f"""INSERT INTO purchases VALUES ("{userid}", "{eventid}")""")
             return True
         except Exception as e:
             raise Error(e)
+
+class dumpDB:
+    @staticmethod
+    def executequery(query):
+        db = sqlite3.connect('users.db')
+        c = db.cursor()
+        c.execute(query)
+        db.commit()
+        db.close()
