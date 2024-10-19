@@ -44,6 +44,24 @@ class usersDB:
         except Exception as e:
             raise Error(e)
 
+    @staticmethod
+    def fetchone(query, params=None):
+        db = sqlite3.connect('users.db')
+        c = db.cursor()
+        if params:
+            c.execute(query, params)
+        else:
+            c.execute(query)
+        result = c.fetchone()
+        db.close()
+        return result
+
+    @classmethod
+    def authorize(cls, login, password):
+        query = """SELECT userid FROM userinfo WHERE (username = ? OR email = ?) AND password = ?"""
+        user = cls.fetchone(query, (login, login, password))
+        return user
+
     @classmethod
     def add_to_favorites(cls, userid, eventid):
         try:
@@ -76,6 +94,24 @@ class usersDB:
             result = cls.executequery(f"""SELECT eventid FROM purchases WHERE userid == "{userid}" """)
             result = [row[0] for row in result]
             return result
+        except Exception as e:
+            raise Error(e)
+
+    @classmethod
+    def get_popular_events(cls):
+        try:
+            query = """
+            SELECT eventid, COUNT(*) as popularity
+            FROM (
+                SELECT eventid FROM favorites
+                UNION ALL
+                SELECT eventid FROM purchases
+            )
+            GROUP BY eventid
+            ORDER BY popularity DESC
+            """
+            result = cls.executequery(query)
+            return [row[0] for row in result]
         except Exception as e:
             raise Error(e)
 
