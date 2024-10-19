@@ -60,7 +60,7 @@ class usersDB:
     def authorize(cls, login, password):
         query = """SELECT userid FROM userinfo WHERE (username = ? OR email = ?) AND password = ?"""
         user = cls.fetchone(query, (login, login, password))
-        return user
+        return user is not None
 
     @classmethod
     def add_to_favorites(cls, userid, eventid):
