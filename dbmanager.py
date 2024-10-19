@@ -113,7 +113,8 @@ class usersDB:
             result = cls.executequery(query)
             return [row[0] for row in result]
         except Exception as e:
-            raise Error(e)
+            raise Exception(e)
+
 
 class dumpDB:
     @staticmethod
