@@ -31,6 +31,8 @@
   </template>
   
   <script>
+  import axios from 'axios';
+
   export default {
     data() {
       return {
@@ -66,13 +68,13 @@
         if (!this.errors.login && !this.errors.password) {
           console.log("Form data:", this.form);
 
-        //   fetch("http://localhost:4000/registration", {
-        //     method: 'POST', 
-        //     headers: {
-        //         'Content-Type': 'application/json;charset=utf-8'
-        //     },
-        //     body: JSON.stringify(Object.fromEntries(this.newPhoto)),
-        // })
+          axios.post('http://localhost:5000/authorize', this.form)
+            .then((response) => {
+              console.log(response);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         }
       },
     },

@@ -87,7 +87,7 @@
         this.validateUsername();
         this.validateEmail();
         this.validatePassword();
-
+  
         if (!this.errors.username && !this.errors.email && !this.errors.password) {
           console.log("Form data:", this.form);
 

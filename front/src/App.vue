@@ -11,18 +11,17 @@ import { RouterLink, RouterView } from 'vue-router'
       <RouterLink to="/authorization">АВТОРИЗ</RouterLink>
     </nav>
     <nav class="nav-2-line">
-      <RouterLink to="/some-page">сэйм паге</RouterLink>
-      <RouterLink to="/some-page">сэйм паге</RouterLink>
-      <RouterLink to="/some-page">сэйм паге</RouterLink>
-      <RouterLink to="/some-page">сэйм паге</RouterLink>
-      <RouterLink to="/some-page">сэйм паге</RouterLink>
-      <RouterLink to="/some-page">сэйм паге</RouterLink>
-      <RouterLink to="/some-page">сэйм паге</RouterLink>
-      <RouterLink to="/some-page">сэйм паге</RouterLink>
-      <RouterLink to="/some-page">сэйм паге</RouterLink>
-      <RouterLink to="/some-page">сэйм паге</RouterLink>
-      <RouterLink to="/some-page">сэйм паге</RouterLink>
-      <RouterLink to="/some-page">сэйм паге</RouterLink>
+      <RouterLink to="/posters">Афиша</RouterLink>
+      <RouterLink to="/some-page">Отключения</RouterLink>
+      <RouterLink to="/some-page">Недвижимость</RouterLink>
+      <RouterLink to="/some-page">Справочник</RouterLink>
+      <RouterLink to="/some-page">Базы отдыха</RouterLink>
+      <RouterLink to="/some-page">Фарпост</RouterLink>
+      <RouterLink to="/some-page">Врачи</RouterLink>
+      <RouterLink to="/some-page">ТВ-программа</RouterLink>
+      <RouterLink to="/some-page">Транспорт</RouterLink>
+      <RouterLink to="/some-page">Дром</RouterLink>
+      <RouterLink to="/some-page">ЛовиКупон</RouterLink>
     </nav>
   </header>
 
@@ -45,6 +44,8 @@ export default {
     setInterval(() => {
       this.getCurrentDateTime();
     }, 1000);
+
+    localStorage.setItem('currentDay', JSON.stringify({ day: this.getDayNumber() }));
   },
   methods: {
     getCurrentDateTime() {
@@ -52,8 +53,20 @@ export default {
 
       this.currentDate = now.toLocaleDateString();
       this.currentTime = now.toLocaleTimeString();
-      localStorage.setItem('currentDay', JSON.stringify({ day: now.getDate() }));
     },
+    getDayNumber() {
+      const startDate = new Date(2024, 0, 1); // 1 января 2024 года
+      const selectedDate = new Date();
+      
+      // Разница в миллисекундах
+      const diffInTime = selectedDate.getTime() - startDate.getTime();
+      
+      // Конвертируем миллисекунды в дни
+      const diffInDays = Math.floor(diffInTime / (1000 * 3600 * 24));
+
+      // Возвращаем результат, начиная с 1
+      return diffInDays >= 0 ? diffInDays + 1 : 'Дата до 1 января 2024 года';
+    }
   },
 };
 </script>
