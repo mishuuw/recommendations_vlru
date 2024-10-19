@@ -115,6 +115,21 @@ class usersDB:
         except Exception as e:
             raise Exception(e)
 
+    @classmethod
+    def get_recommended_events(cls, user_id):
+        try:
+
+            popular_events = cls.get_popular_events()
+
+            user_favorites = set(cls.get_favorites(user_id))
+            user_purchases = set(cls.get_purchases(user_id))
+            user_events = user_favorites.union(user_purchases)
+
+            recommended_events = [event for event in popular_events if event not in user_events]
+            return recommended_events
+        except Exception as e:
+            raise Exception(e)
+
 
 class dumpDB:
     @staticmethod
