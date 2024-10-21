@@ -5,23 +5,37 @@ import { RouterLink, RouterView } from 'vue-router'
 <template>
   <header>
     <nav class="nav-1-line">
-      <RouterLink to="/">ЛОГО</RouterLink>
-      <span>{{ currentTime }}</span>
-      <span>{{ currentDate }}</span>
-      <RouterLink to="/authorization">АВТОРИЗ</RouterLink>
+      <RouterLink to="/"><img class="logo">
+        <img src="@/assets/logo.png" width="150px">
+      </RouterLink>
+      <div class="time">
+        <span>{{ currentDate }}</span>
+        <span>{{ currentTime }}</span>
+      </div>
+      <RouterLink to="/authorization" v-if="!checkAuthorize">
+        <img src="@/assets/account.png" class="acc">
+      </RouterLink>
+      <RouterLink to="/profile" v-else>
+        <img src="@/assets/account.png" class="acc">
+      </RouterLink>
     </nav>
-    <nav class="nav-2-line">
-      <RouterLink to="/posters">Афиша</RouterLink>
-      <RouterLink to="/some-page">Отключения</RouterLink>
-      <RouterLink to="/some-page">Недвижимость</RouterLink>
-      <RouterLink to="/some-page">Справочник</RouterLink>
-      <RouterLink to="/some-page">Базы отдыха</RouterLink>
-      <RouterLink to="/some-page">Фарпост</RouterLink>
-      <RouterLink to="/some-page">Врачи</RouterLink>
-      <RouterLink to="/some-page">ТВ-программа</RouterLink>
-      <RouterLink to="/some-page">Транспорт</RouterLink>
-      <RouterLink to="/some-page">Дром</RouterLink>
-      <RouterLink to="/some-page">ЛовиКупон</RouterLink>
+    
+    <nav class="nav-small" v-if="visibleMainMenu">
+      <div class="nav-2-line-1">
+        <RouterLink to="/posters">Афиша</RouterLink>
+        <RouterLink to="/some-page">Отключения</RouterLink>
+        <RouterLink to="/some-page">Недвижимость</RouterLink>
+        <RouterLink to="/some-page">Справочник</RouterLink>
+        <RouterLink to="/some-page">Базы отдыха</RouterLink>
+        <RouterLink to="/some-page">Фарпост</RouterLink>
+      </div>
+      <div class="nav-2-line-2">
+        <RouterLink to="/some-page">Врачи</RouterLink>
+        <RouterLink to="/some-page">ТВ-программа</RouterLink>
+        <RouterLink to="/some-page">Транспорт</RouterLink>
+        <RouterLink to="/some-page">Дром</RouterLink>
+        <RouterLink to="/some-page">ЛовиКупон</RouterLink>
+      </div>
     </nav>
   </header>
 
@@ -34,6 +48,8 @@ export default {
     return {
       currentDate: "",
       currentTime: "",
+      checkAuthorize: false,
+      visibleMainMenu: true,
     };
   },
   mounted() {
@@ -46,6 +62,14 @@ export default {
     }, 1000);
 
     localStorage.setItem('currentDay', JSON.stringify({ day: this.getDayNumber() }));
+    
+    if (localStorage.getItem('authorizedUser')) {
+      this.checkAuthorize = true
+    } else {
+      this.checkAuthorize = false
+    }
+    
+    this.visibleMainMenu = localStorage.getItem('visibleMainMenu')
   },
   methods: {
     getCurrentDateTime() {
@@ -72,13 +96,61 @@ export default {
 </script>
 
 <style>
+.acc {
+  width: 40px;
+  margin-top: 25px;
+}
+
 .nav-1-line {
   display: flex;
   justify-content: space-between;
 }
 
-.nav-2-line {
+.nav-2-line-1 {
   display: flex;
   justify-content: space-between;
+  width: 100%;
 }
+
+.nav-2-line-2 {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  margin-top: 15px;
+}
+
+.nav-small {
+  display: flex;
+  flex-direction: column;
+  margin: 50px auto 0;
+  width: 90%;
+} 
+
+.nav-small a {
+  background: #FF8A47;
+  box-shadow: -4px 4px 4px rgba(18, 33, 70, 0.25);
+  border-radius: 12px;
+  padding: 5px;
+  color: white;
+  text-decoration: none;
+  width: 100px;
+  text-align: center;
+}
+
+.time {
+  display: flex;
+  flex-direction: column;
+  /* color: #56A5E2; */
+}
+
+header {
+  background-image: url('@/assets/header-bg.png');
+  height: 200px;
+  padding: 10px 30px;
+}
+
+body {
+  margin: 0;
+}
+
 </style>

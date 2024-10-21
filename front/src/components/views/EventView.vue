@@ -6,18 +6,28 @@
 // import axios from 'axios';
 
 export default {
+    data() {
+        return {
+            eventID: null,
+            event: null,
+        }
+    },
     mounted() {
-        // axios.get('http://localhost:5000/getEventData', {
-        //         params: {
-        //         eventID: eventID // поменять параметр
-        //         }
-        //     })
-        //     .then(function (response) {
-        //         console.log(response);
-        //     })
-        //     .catch(function (error) {
-        //         console.log(error);
-        //     })
+    //   localStorage.setItem('visibleMainMenu', false)
+
+        axios.get('http://localhost:5000/getEventData', {
+                params: {
+                eventID: this.eventID // поменять параметр
+                }
+            })
+            .then(function (response) {
+                console.log(response);
+
+                this.event = JSON.parse(response)
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
     }
 }
 </script>

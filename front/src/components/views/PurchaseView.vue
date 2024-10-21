@@ -1,5 +1,5 @@
 <template>
-    <div class="history-container">
+    <div class="history-container" v-if="checkAuthorization">
       <h1>История покупок билетов</h1>
   
       <div v-if="purchasedTickets.length === 0" class="no-tickets">
@@ -15,32 +15,46 @@
         </div>
       </div>
     </div>
+    <div v-else>
+      <p>Сначала пройдите авторизацию</p>
+      <RouterLink to="/authorization">Авторизация</RouterLink>
+    </div>
   </template>
   
   <script>
+  import axios from 'axios';
+
   export default {
     data() {
       return {
-        purchasedTickets: [] // Массив для хранения истории покупок билетов
+        purchasedTickets: [], // Массив для хранения истории покупок билетов
+        checkAuthorization: false
       };
     },
     mounted() {
-      this.loadPurchasedTickets();
+      // localStorage.setItem('visibleMainMenu', false)
+
+      if (localStorage.getItem('authorizedUser')) {
+        this.checkAuthorization = true
+        this.loadPurchasedTickets();
+      }
     },
     methods: {
       // Загрузка купленных билетов из localStorage
       loadPurchasedTickets() {
-        // axios.get('http://localhost:5000/getPurchaseList', {
-        //         params: {
-        //         userID: userID // поменять параметр
-        //         }
-        //     })
-        //     .then(function (response) {
-        //         console.log(response);
-        //     })
-        //     .catch(function (error) {
-        //         console.log(error);
-        //     })
+        axios.get('http://localhost:5000/getPurchaseList', {
+                params: {
+                userID: localStorage.getItem('authorizedUser').userID
+                }
+            })
+            .then(function (response) {
+                console.log(response);
+
+                this.purchasedTickets = JSON.parse(response)
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
       },
       // Форматирование даты покупки
       formatPurchaseDate(date) {

@@ -44,7 +44,11 @@
           login: null,
           password: null,
         },
+        authorizedUser: null
       };
+    },
+    mounted() {
+      // localStorage.setItem('visibleMainMenu', true)
     },
     methods: {
       validateLogin() {
@@ -68,12 +72,23 @@
         if (!this.errors.login && !this.errors.password) {
           console.log("Form data:", this.form);
 
+
+
           axios.post('http://localhost:5000/authorize', this.form)
             .then((response) => {
               console.log(response);
+              // userID, username
+
+              this.authorizedUser = JSON.parse(response)
+              if (this.authorizedUser) {
+                localStorage.setItem('authorizedUser', this.authorizedUser)
+              } else {
+                localStorage.setItem('authorizedUser', null)
+              }
             })
             .catch((error) => {
               console.log(error);
+              localStorage.setItem('authorizedUser', null)
             });
         }
       },

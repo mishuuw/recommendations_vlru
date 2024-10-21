@@ -57,7 +57,11 @@
           email: null,
           password: null,
         },
+        authorizedUser: null,
       };
+    },
+    mounted() {
+      // localStorage.setItem('visibleMainMenu', false)
     },
     methods: {
       validateUsername() {
@@ -94,9 +98,18 @@
           axios.post('http://localhost:5000/register', this.form)
             .then((response) => {
               console.log(response);
+              // userID, username
+
+              this.authorizedUser = JSON.parse(response)
+              if (this.authorizedUser) {
+                localStorage.setItem('authorizedUser', this.authorizedUser)
+              } else {
+                localStorage.setItem('authorizedUser', null)
+              }
             })
             .catch((error) => {
               console.log(error);
+              localStorage.setItem('authorizedUser', null)
             });
         }
       },

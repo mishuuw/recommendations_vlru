@@ -24,7 +24,9 @@
     data() {
       return {
         filter: '',
-        recommendEvents: []
+        recommendEvents: [],
+        filteredEvents: [],
+        popularEvents: [],
       }
     },
     methods: {
@@ -32,6 +34,8 @@
         axios.get('http://localhost:5000/getFiltredEvents', {params: {filter: this.filter}})
         .then((response) => {
           console.log(response);
+
+          this.filteredEvents = JSON.parse(response)
         })
         .catch((error) => {
           console.log(error);
@@ -42,24 +46,27 @@
         axios.get('http://localhost:5000/getPopularEvents')
         .then((response) => {
           console.log(response);
+
+          this.popularEvents = JSON.parse(response)
         })
         .catch((error) => {
           console.log(error);
         })
       },
 
-      // addFavotite(eventID) {
-      //   axios.post('http://localhost:5000/addFavorite', {"userID": "..", "eventID": eventID}) // поменять параметр
-      //       .then((response) => {
-      //         console.log(response);
-      //       })
-      //       .catch((error) => {
-      //         console.log(error);
-      //       });
-      // },
+      addFavotite(eventID) {
+        axios.post('http://localhost:5000/addFavorite', {"userID": localStorage.getItem('authorizedUser').userID, "eventID": eventID}) // поменять параметр
+            .then((response) => {
+              console.log(response);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+      },
     },
     mounted() {
       this.getPopularEvents()
+      // localStorage.setItem('visibleMainMenu', true)
     },  
   };
   </script>

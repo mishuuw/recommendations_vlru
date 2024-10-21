@@ -1,5 +1,5 @@
 <template>
-    <div class="events-container">
+    <div class="events-container" v-if="checkAuthorize">
       <h1>Избранные события</h1>
   
       <div v-if="favoriteEvents.length === 0" class="no-events">
@@ -15,32 +15,46 @@
         </div>
       </div>
     </div>
+    <div v-else>
+      <p>Сначала пройдите авторизацию</p>
+      <RouterLink to="/authorization">Авторизация</RouterLink>
+    </div>
   </template>
   
   <script>
+  import axios from 'axios';
+
   export default {
     data() {
       return {
-        favoriteEvents: [] // Массив для хранения избранных событий
+        favoriteEvents: [], // Массив для хранения избранных событий
+        checkAuthorize: false,
       };
     },
     mounted() {
-      this.loadFavoriteEvents();
+      // localStorage.setItem('visibleMainMenu', false)
+
+      if (localStorage.getItem('authorizedUser')) {
+        this.checkAuthorize = true;
+        this.loadFavoriteEvents();
+      }
     },
     methods: {
       // Загрузка избранных событий из localStorage
       loadFavoriteEvents() {
-        // axios.get('http://localhost:5000/getFavoriteList', {
-        //         params: {
-        //         userID: userID // поменять параметр
-        //         }
-        //     })
-        //     .then(function (response) {
-        //         console.log(response);
-        //     })
-        //     .catch(function (error) {
-        //         console.log(error);
-        //     })
+        axios.get('http://localhost:5000/getFavoriteList', {
+                params: {
+                userID: localStorage.getItem('authorizedUser').userID
+                }
+            })
+            .then(function (response) {
+                console.log(response);
+
+                this.favoriteEvents = JSON.parse(response)
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
       },
       // Удаление события из избранного
       removeFromFavorites(eventId) {

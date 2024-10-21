@@ -6,6 +6,7 @@ import AuthorizationView from '@/components/views/AuthorizationView.vue'
 import PostersView from '@/components/views/PostersView.vue'
 import FavoritesView from '@/components/views/FavoritesView.vue'
 import PurchaseView from '@/components/views/PurchaseView.vue'
+import ProfileView from '@/components/views/ProfileView.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -44,6 +45,11 @@ const router = createRouter({
       path: '/history', 
       name: 'history', 
       component: PurchaseView
+    }, 
+    {
+      path: '/profile',
+      name: 'profile', 
+      component: ProfileView
     }
   ]
 })
