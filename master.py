@@ -1,8 +1,14 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from dbmanager import *
+from flask_caching import Cache
+from dbmanager import usersDB
+
 app = Flask(__name__)
 CORS(app)
+
+"""НАСТРОЙКА КЭША, ЙОУ"""
+cache = Cache(app, config={'CACHE_TYPE': 'simple'})
+"""КОНЕЦ НАСТРОЙКИ КЭША, ЙОУ"""
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -11,7 +17,6 @@ def register():
     print(response)
     return response
 
-# to do:
 @app.route('/authorize', methods=['POST'])
 def authorize():
     data = request.json
@@ -38,6 +43,9 @@ def addfavorite():
     try:
         success = usersDB.add_to_favorites(user_id, event_id)
         if success:
+            cache.delete('getPopularEvents')
+            cache.delete(f'getRecommendedEvents_{user_id}')
+            cache.delete(f'getFavoriteList_{user_id}')
             return jsonify({"message": "Event added to favorites"}), 200
         else:
             return jsonify({"error": "Failed to add event to favorites"}), 500
@@ -56,6 +64,9 @@ def buy():
     try:
         success = usersDB.add_to_purchases(user_id, event_id)
         if success:
+            cache.delete('getPopularEvents')
+            cache.delete(f'getRecommendedEvents_{user_id}')
+            cache.delete(f'getPurchaseList_{user_id}')
             return jsonify({"message": "Event purchased"}), 200
         else:
             return jsonify({"error": "Failed to purchase event"}), 500
@@ -63,6 +74,7 @@ def buy():
         return jsonify({"error": str(e)}), 500
 
 @app.route('/getPopularEvents', methods=['GET'])
+@cache.cached(timeout=228)  # Кэширование на 5 минут
 def getpopularevents():
     try:
         events = usersDB.get_popular_events()
@@ -71,6 +83,7 @@ def getpopularevents():
         return jsonify({"error": str(e)}), 500
 
 @app.route('/getFavoriteList', methods=['GET'])
+@cache.cached(timeout=228, key_prefix="getFavoriteList_{user_id}")
 def getfavoritelist():
     user_id = request.args.get('userID')
     if not user_id:
@@ -83,6 +96,7 @@ def getfavoritelist():
         return jsonify({"error": str(e)}), 500
 
 @app.route('/getPurchaseList', methods=['GET'])
+@cache.cached(timeout=228, key_prefix="getPurchaseList_{user_id}")
 def getpurchaselist():
     user_id = request.args.get('userID')
     if not user_id:
@@ -95,6 +109,7 @@ def getpurchaselist():
         return jsonify({"error": str(e)}), 500
 
 @app.route('/getEventData', methods=['GET'])
+@cache.cached(timeout=228, key_prefix="getEventData_{event_id}")
 def geteventdata():
     event_id = request.args.get('eventID')
     if not event_id:
@@ -107,6 +122,7 @@ def geteventdata():
         return jsonify({"error": str(e)}), 500
 
 @app.route('/getRecommendedEvents', methods=['GET'])
+@cache.cached(timeout=228, key_prefix="getRecommendedEvents_{user_id}")
 def getrecommendedevents():
     user_id = request.args.get('userID')
     if not user_id:
