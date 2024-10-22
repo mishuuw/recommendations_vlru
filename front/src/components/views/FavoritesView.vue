@@ -34,7 +34,7 @@
     mounted() {
       // localStorage.setItem('visibleMainMenu', false)
 
-      if (localStorage.getItem('authorizedUser')) {
+      if (localStorage.getItem('authorizedUser') !== 'null') {
         this.checkAuthorize = true;
         this.loadFavoriteEvents();
       }

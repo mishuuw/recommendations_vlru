@@ -1,6 +1,9 @@
 <template>
-    <div class="register-form">
-      <h2>Регистрация</h2>
+    <div class="authorization-form">
+      <div class="button-group">
+        <RouterLink to="/authorization">Вход</RouterLink>
+        <RouterLink to="/registration" class="selected">Регистрация</RouterLink>
+      </div>
       <form @submit.prevent="handleSubmit">
         <div class="form-group">
           <label for="username">Имя пользователя:</label>
@@ -35,8 +38,9 @@
           <span v-if="errors.password" class="error">{{ errors.password }}</span>
         </div>
   
-        <button type="submit">Отправить</button>
-        <RouterLink to="/authorization">Авторизация</RouterLink>
+        <div class="submit">
+          <button type="submit">Отправить</button>
+        </div>
       </form>
     </div>
   </template>
