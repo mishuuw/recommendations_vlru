@@ -147,10 +147,61 @@ header {
   background-image: url('@/assets/header-bg.png');
   height: 200px;
   padding: 10px 30px;
+  margin-bottom: 20px;
 }
 
 body {
   margin: 0;
 }
 
+.authorization-form {
+  background: rgba(239, 239, 239, 0.55);
+  box-shadow: 0px 13px 24.5px rgba(55, 89, 175, 0.25);
+  border-radius: 12px;
+  padding: 10px;
+  max-width: 400px;
+  margin: 0 auto;
+  /* margin-top: 20px; */
+}
+
+.form-group input {
+  background: #C1D3F4;
+  border-radius: 12px;  
+  border: 1px;
+}
+
+.authorization-form button {
+  background: #FF9354;
+  border-radius: 12px;
+  padding: 6px;
+  border: 1px;
+}
+
+
+.button-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-bottom: 10px;
+}
+
+.selected {
+  background: #EDEDED;
+  box-shadow: 0px 4px 24.5px rgba(0, 0, 0, 0.25);
+  border-radius: 12px;
+}
+
+.button-group a {
+  display: block;
+  width: 40%;
+  padding: 5px;
+  text-align: center;
+  text-decoration: none;
+  color: #FF8A47;
+}
+
+.submit {
+  display: flex;
+  justify-content: center;
+}
 </style>

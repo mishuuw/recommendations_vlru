@@ -25,10 +25,13 @@ export default {
     mounted() {
         // localStorage.setItem('visibleMainMenu', false)
 
-        if (localStorage.getItem('authorizedUser')) {
+        console.log(localStorage.getItem('authorizedUser'))
+
+        if (localStorage.getItem('authorizedUser') !== 'null') {
             this.authorizedUser = localStorage.getItem('authorizedUser')
             this.checkAuthorization = true
         }
+
     },
     methods: {
         logOut() {
