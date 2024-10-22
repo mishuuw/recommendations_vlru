@@ -16,16 +16,7 @@
             </div>
         </div>
 
-        <div v-if="recommendEvents.length" class="events-list">
-            <b3>Популярное в последнее время</b3>
-            <div v-for="event in recommendEvents" :key="event.id" class="event-item">
-                <h3>{{ event.title }}</h3>
-                <p><strong>Дата:</strong> {{ event.date.day }} {{ event.date.month }} {{ event.date.year }}</p>
-                <p><strong>Время:</strong> {{ event.time }}</p>
-                <p><strong>Категория:</strong> {{ event.category }}</p>
-            </div>
-        </div>
-        <!-- СДЕЛАТЬ ПРОЛИСТЫВАНИЕ ВПРАВО -->
+        <RecommendationsView/>
         
         <div class="all-events">
             <div class="filters">
@@ -80,41 +71,27 @@
                 </div>
             </div>
     
-            <div>
-                <div v-if="filteredEvents.length" class="events-list">
-                    <b3>Популярное в последнее время</b3>
-                    <div v-for="event in filteredEvents" :key="event.id" class="event-item">
-                        <h3>{{ event.title }}</h3>
-                        <p><strong>Дата:</strong> {{ event.date.day }} {{ event.date.month }} {{ event.date.year }}</p>
-                        <p><strong>Время:</strong> {{ event.time }}</p>
-                        <p><strong>Категория:</strong> {{ event.category }}</p>
-                    </div>
-                </div>
-            </div>
-            <!--  СДЕЛАТЬ ПРОЛИСТЫВАНИЕ ВНИЗ  -->
+            <FilteredView />
         </div>
     
-        <div v-if="filmsEvents.length" class="events-list">
-                <b3>Кино</b3>
-                <div v-for="event in filmsEvents" :key="event.id" class="event-item">
-                    <h3>{{ event.title }}</h3>
-                    <p><strong>Дата:</strong> {{ event.date.day }} {{ event.date.month }} {{ event.date.year }}</p>
-                    <p><strong>Время:</strong> {{ event.time }}</p>
-                    <p><strong>Категория:</strong> {{ event.category }}</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- СДЕЛАТЬ ПРОЛИСТЫВАНИЕ ВПРАВО -->
-
+        <FilmsView />
+    </div>
 </template>
 
 <!-- ПРИ ПОИСКЕ ДАТЫ, НА КОТОРУЮ НЕТ КОНЦЕРТА ИЛИ КОТОРАЯ ПРОШЛА ВЕРНУТЬ ОШИБКУ -->
 
 <script>
 import axios from 'axios'
+import RecommendationsView from './RecommendationsView.vue';
+import FilteredView from './FilteredView.vue';
+import FilmsView from './FilmsView.vue';
 
 export default {
+    components: {
+        RecommendationsView,
+        FilteredView,
+        FilmsView
+    },
     data() {
       return {
         recommendEvents: [],

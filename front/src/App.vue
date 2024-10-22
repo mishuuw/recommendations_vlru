@@ -1,5 +1,6 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import FooterView from './components/views/FooterView.vue';
 </script>
 
 <template>
@@ -20,7 +21,7 @@ import { RouterLink, RouterView } from 'vue-router'
       </RouterLink>
     </nav>
     
-    <nav class="nav-small" v-if="visibleMainMenu">
+    <nav class="nav-small">
       <div class="nav-2-line-1">
         <RouterLink to="/posters">Афиша</RouterLink>
         <RouterLink to="/some-page">Отключения</RouterLink>
@@ -39,11 +40,18 @@ import { RouterLink, RouterView } from 'vue-router'
     </nav>
   </header>
 
-  <RouterView />
+  <div class="main">
+    <RouterView />
+  </div>
+
+  <FooterView />
 </template>
 
 <script>
 export default {
+  components: {
+    FooterView
+  },
   data() {
     return {
       currentDate: "",
@@ -96,6 +104,10 @@ export default {
 </script>
 
 <style>
+.main {
+  min-height: 500px;
+}
+
 .acc {
   width: 40px;
   margin-top: 25px;
@@ -152,6 +164,7 @@ header {
 
 body {
   margin: 0;
+  background-color: rgb(233, 233, 233);
 }
 
 .authorization-form {
@@ -203,5 +216,6 @@ body {
 .submit {
   display: flex;
   justify-content: center;
+  color: white;
 }
 </style>
