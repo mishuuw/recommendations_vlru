@@ -3,6 +3,18 @@ from flask_cors import CORS
 from flask_caching import Cache
 from dbmanager import usersDB
 
+#        |
+#        |
+#        |
+#       \|/
+
+"""КТО ПРОЧИТАЛ ТОТ ЛОХ"""
+
+#       /|\
+#        |
+#        |
+#        |
+
 app = Flask(__name__)
 CORS(app)
 
