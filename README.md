@@ -7,12 +7,20 @@
 
 **Что бы получить список рекомендаций (по умолчанию выдаются 36шт, сортированные по lambda x: x['views']:**
 1. Импортировать файлик с нейронкой 
+```python
 from neural_network import NeuralNetwork
-2. Создать экземпляр NeuralNetwork
+```
+3. Создать экземпляр NeuralNetwork
+```python
 AI = NeuralNetwork()
-3. Получить рекомендации единственный открытый метод
+```
+5. Получить рекомендации используя единственный открытый метод:
+```python
 recommendations = AI.get_recommendations(user_id) # id - 32 символа
+```
+
 recommendations - list из 36 объектов со следующими параметрами:
+```python
 dict(
   event_id=event_id,
   categories=result.split(';'),
@@ -28,6 +36,7 @@ dict(
   dislikes=random.randint(0,50),
   views=random.randint(0,5000)
 )
+```
 
 **ВАЖНАЯ ИНФА:**
 
