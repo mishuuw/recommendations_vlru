@@ -22,7 +22,7 @@
   </template>
   
   <script>
-  import axios from 'axios';
+  // import axios from 'axios';
 
   export default {
     data() {
@@ -42,19 +42,19 @@
     methods: {
       // Загрузка купленных билетов из localStorage
       loadPurchasedTickets() {
-        axios.get('http://localhost:5000/getPurchaseList', {
-                params: {
-                userID: localStorage.getItem('authorizedUser').userID
-                }
-            })
-            .then(function (response) {
-                console.log(response);
+        // axios.get('http://localhost:5000/getPurchaseList', {
+        //         params: {
+        //         userID: localStorage.getItem('authorizedUser').userID
+        //         }
+        //     })
+        //     .then(function (response) {
+        //         console.log(response);
 
-                this.purchasedTickets = JSON.parse(response)
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
+        //         this.purchasedTickets = JSON.parse(response)
+        //     })
+        //     .catch(function (error) {
+        //         console.log(error);
+        //     })
       },
       // Форматирование даты покупки
       formatPurchaseDate(date) {

@@ -9,10 +9,10 @@ import FooterView from './components/views/FooterView.vue';
       <RouterLink to="/"><img class="logo">
         <img src="@/assets/logo.png" width="150px">
       </RouterLink>
-      <div class="time">
+      <!-- <div class="time">
         <span>{{ currentDate }}</span>
         <span>{{ currentTime }}</span>
-      </div>
+      </div> -->
       <RouterLink to="/authorization" v-if="!checkAuthorize">
         <img src="@/assets/account.png" class="acc">
       </RouterLink>
@@ -21,7 +21,7 @@ import FooterView from './components/views/FooterView.vue';
       </RouterLink>
     </nav>
     
-    <nav class="nav-small">
+    <!-- <nav class="nav-small">
       <div class="nav-2-line-1">
         <RouterLink to="/posters">Афиша</RouterLink>
         <RouterLink to="/some-page">Отключения</RouterLink>
@@ -37,7 +37,7 @@ import FooterView from './components/views/FooterView.vue';
         <RouterLink to="/some-page">Дром</RouterLink>
         <RouterLink to="/some-page">ЛовиКупон</RouterLink>
       </div>
-    </nav>
+    </nav> -->
   </header>
 
   <div class="main">
@@ -77,7 +77,7 @@ export default {
       this.checkAuthorize = false
     }
     
-    this.visibleMainMenu = localStorage.getItem('visibleMainMenu')
+    // this.visibleMainMenu = localStorage.getItem('visibleMainMenu')
   },
   methods: {
     getCurrentDateTime() {
@@ -118,7 +118,7 @@ export default {
   justify-content: space-between;
 }
 
-.nav-2-line-1 {
+/* .nav-2-line-1 {
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -147,7 +147,7 @@ export default {
   text-decoration: none;
   width: 100px;
   text-align: center;
-}
+} */
 
 .time {
   display: flex;
@@ -157,14 +157,15 @@ export default {
 
 header {
   background-image: url('@/assets/header-bg.png');
-  height: 200px;
+  height: 80px;
   padding: 10px 30px;
   margin-bottom: 20px;
 }
 
 body {
   margin: 0;
-  background-color: rgb(233, 233, 233);
+  background-color: rgb(248, 248, 248);
+  font-family: "Arial";
 }
 
 .authorization-form {

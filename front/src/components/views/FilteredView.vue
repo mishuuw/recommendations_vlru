@@ -1,13 +1,17 @@
 <template>
     <div class="event-list">
       <div class="events-wrapper">
-        <!-- Карточки событий -->
         <div class="event-card" v-for="(event, index) in visibleEvents" :key="index">
-          <img :src="event.image" alt="Event image" class="event-image" />
+          <img src="@/assets/zatik.png" alt="Event image" class="event-image" style="opacity: 70%;" />
           <div class="event-info">
             <h3>{{ event.title }}</h3>
             <p>{{ event.date }} - {{ event.time }}</p>
-            <p>{{ event.location }}</p>
+            <p style="margin-bottom: 0;">{{ event.location }}</p>
+            <!-- Кнопка "Добавить в избранное" внизу -->
+            <button @click="toggleFavorite(event)" class="favorite-button">
+              <span v-if="event.isFavorite">&#10084;</span>
+              <span v-else>&#9825;</span>
+            </button>
           </div>
         </div>
       </div>
@@ -75,6 +79,9 @@
       showMore() {
         this.visibleCount += this.perPage;
       },
+      toggleFavorite(event) {
+        event.isFavorite = !event.isFavorite;
+      },
     },
   };
   </script>
@@ -117,5 +124,19 @@
     font-size: 16px;
     cursor: pointer;
   }
+
+  .favorite-button {
+  background: none;
+  border: none;
+  font-size: 32px;
+  cursor: pointer;
+  color: #FF8A47;
+  /* margin-top: 15px; */
+  transition: transform 0.3s;
+}
+
+.favorite-button:hover {
+  transform: scale(1.2);
+}
   </style>
   

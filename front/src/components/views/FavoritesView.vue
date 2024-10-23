@@ -22,7 +22,7 @@
   </template>
   
   <script>
-  import axios from 'axios';
+  // import axios from 'axios';
 
   export default {
     data() {
@@ -42,19 +42,19 @@
     methods: {
       // Загрузка избранных событий из localStorage
       loadFavoriteEvents() {
-        axios.get('http://localhost:5000/getFavoriteList', {
-                params: {
-                userID: localStorage.getItem('authorizedUser').userID
-                }
-            })
-            .then(function (response) {
-                console.log(response);
+        // axios.get('http://localhost:5000/getFavoriteList', {
+        //         params: {
+        //         userID: localStorage.getItem('authorizedUser').userID
+        //         }
+        //     })
+        //     .then(function (response) {
+        //         console.log(response);
 
-                this.favoriteEvents = JSON.parse(response)
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
+        //         this.favoriteEvents = JSON.parse(response)
+        //     })
+        //     .catch(function (error) {
+        //         console.log(error);
+        //     })
       },
       // Удаление события из избранного
       removeFromFavorites(eventId) {

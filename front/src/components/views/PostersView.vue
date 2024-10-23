@@ -17,8 +17,11 @@
         </div>
 
         <RecommendationsView/>
+
+        <PopularView />
         
         <div class="all-events">
+          <h2>Все события</h2>
             <div class="filters">
                 <div class="filter-category">
                     <label for="category">Фильтр по категории:</label>
@@ -81,16 +84,18 @@
 <!-- ПРИ ПОИСКЕ ДАТЫ, НА КОТОРУЮ НЕТ КОНЦЕРТА ИЛИ КОТОРАЯ ПРОШЛА ВЕРНУТЬ ОШИБКУ -->
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
 import RecommendationsView from './RecommendationsView.vue';
 import FilteredView from './FilteredView.vue';
 import FilmsView from './FilmsView.vue';
+import PopularView from './PopularView.vue';
 
 export default {
     components: {
         RecommendationsView,
         FilteredView,
-        FilmsView
+        FilmsView, 
+        PopularView
     },
     data() {
       return {
@@ -123,15 +128,15 @@ export default {
         }
     },
     methods: {
-        getFilteredEvents() {
-            axios.get('http://localhost:5000/getFiltredEvents', {params: {filters: this.filters}})
-            .then((response) => {
-                console.log(response);
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-        },
+        // getFilteredEvents() {
+        //     axios.get('http://localhost:5000/getFiltredEvents', {params: {filters: this.filters}})
+        //     .then((response) => {
+        //         console.log(response);
+        //     })
+        //     .catch((error) => {
+        //         console.log(error);
+        //     })
+        // },
         toggleDatePicker() {
             this.otherDate.showDatePicker = !this.otherDate.showDatePicker;
         },
@@ -163,29 +168,29 @@ export default {
 
             // localStorage.setItem('visibleMainMenu', false)
 
-            axios.get('http://localhost:5000//getFilms')
-                .then((response) => {
-                console.log(response);
+            // axios.get('http://localhost:5000//getFilms')
+            //     .then((response) => {
+            //     console.log(response);
 
-                this.filmsEvents = JSON.parse(response)
-                })
-                .catch((error) => {
-                console.log(error);
-                })
+            //     this.filmsEvents = JSON.parse(response)
+            //     })
+            //     .catch((error) => {
+            //     console.log(error);
+            //     })
 
-            axios.get('http://localhost:5000/getRecommendedEvents', {
-                    params: {
-                    userID: localStorage.getItem('authorizedUser').userID // поменять параметр
-                    }
-                })
-                .then(function (response) {
-                    console.log(response);
+            // axios.get('http://localhost:5000/getRecommendedEvents', {
+            //         params: {
+            //         userID: localStorage.getItem('authorizedUser').userID // поменять параметр
+            //         }
+            //     })
+            //     .then(function (response) {
+            //         console.log(response);
 
-                    this.recommendEvents = JSON.parse(response)
-                })
-                .catch(function (error) {
-                    console.log(error);
-                })
+            //         this.recommendEvents = JSON.parse(response)
+            //     })
+            //     .catch(function (error) {
+            //         console.log(error);
+            //     })
         }
     }
 }
@@ -214,6 +219,8 @@ export default {
     margin: 25px 0 0 10px;
     border: none;
     color: #56A5E2;
+    background-color: rgb(233, 233, 233);
+    border-radius: 10px;
   }
 
   .search {
@@ -221,6 +228,7 @@ export default {
     height: 50px;
     display: flex;
     justify-content: center;
+    margin-bottom: 30px;
   }
 
   .search-box {
@@ -325,9 +333,19 @@ export default {
 
   .filters {
     font-size: 22px;
+    display: flex;
+    justify-content: space-around;
   }
   
   strong {
     font-weight: bold;
+  }
+
+  .all-events h2 {
+    display: flex;
+    justify-content: space-around;
+    margin: 40px 0 10px 0;
+    font-size: 30px;
+    color: #FF8A47;
   }
   </style>

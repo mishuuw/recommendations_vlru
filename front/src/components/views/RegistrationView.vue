@@ -46,7 +46,7 @@
   </template>
   
   <script>
-  import axios from 'axios';
+  // import axios from 'axios';
 
   export default {
     data() {
@@ -99,22 +99,22 @@
         if (!this.errors.username && !this.errors.email && !this.errors.password) {
           console.log("Form data:", this.form);
 
-          axios.post('http://localhost:5000/register', this.form)
-            .then((response) => {
-              console.log(response);
-              // userID, username
+          // axios.post('http://localhost:5000/register', this.form)
+          //   .then((response) => {
+          //     console.log(response);
+          //     // userID, username
 
-              this.authorizedUser = JSON.parse(response)
-              if (this.authorizedUser) {
-                localStorage.setItem('authorizedUser', this.authorizedUser)
-              } else {
-                localStorage.setItem('authorizedUser', null)
-              }
-            })
-            .catch((error) => {
-              console.log(error);
-              localStorage.setItem('authorizedUser', null)
-            });
+          //     this.authorizedUser = JSON.parse(response)
+          //     if (this.authorizedUser) {
+          //       localStorage.setItem('authorizedUser', this.authorizedUser)
+          //     } else {
+          //       localStorage.setItem('authorizedUser', null)
+          //     }
+          //   })
+          //   .catch((error) => {
+          //     console.log(error);
+          //     localStorage.setItem('authorizedUser', null)
+          //   });
         }
       },
     },
