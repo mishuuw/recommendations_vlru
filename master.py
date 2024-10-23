@@ -1,8 +1,12 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from flask_caching import Cache
-from dbmanager import usersDB
+from dbmanager import usersDB, eventsDB
+from neural_network import NeuralNetwork
 
+# Создаёт и тренирует новую модель. Подразумевается что БД ratings.db будет обновляться раз в определенное время, вместе
+# с переобучением модели - на файле dump.db он обучается довольно быстро.
+AI = NeuralNetwork()
 
 app = Flask(__name__)
 CORS(app)
@@ -117,7 +121,7 @@ def geteventdata():
         return jsonify({"error": "Event ID is required"}), 400
 
     try:
-        event_data = usersDB.get_event_data(event_id)
+        event_data = eventsDB.get_event_data(event_id)
         return jsonify(event_data), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -130,10 +134,10 @@ def getrecommendedevents():
         return jsonify({"error": "User ID is required"}), 400
 
     try:
-        recommended_events = usersDB.get_recommended_events(user_id)
+        recommended_events = AI.get_recommendations(user_id)
         return jsonify(recommended_events), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-if __name__ == '__main__':
-    app.run(debug=True)
+'''if __name__ == '__main__':
+    app.run(debug=True)'''

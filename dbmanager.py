@@ -1,6 +1,8 @@
+import random
 import secrets
 import sqlite3
 import string
+from datetime import datetime
 from webbrowser import Error
 
 
@@ -131,11 +133,44 @@ class usersDB:
             raise Exception(e)
 
 
-class dumpDB:
+class eventsDB:
     @staticmethod
     def executequery(query):
-        db = sqlite3.connect('users.db')
+        db = sqlite3.connect('dump.db') #dump.db - затычка для моих затычковских нужд
         c = db.cursor()
-        c.execute(query)
+        result = c.execute(query).fetchall()
         db.commit()
         db.close()
+        return result
+
+    @staticmethod # Абсолютно затычковый метод, просто выбирает рандомные события (типо актуальная афиша)
+    def get_random_events():
+        query = f"""SELECT EventID FROM Event_to_Category"""
+        result = eventsDB.executequery(query)
+        events = [event[0] for event in result]
+        events = random.choices(events, k=700)
+        return [eventsDB.get_event_data(event) for event in events]
+
+    @staticmethod # Полностью затычковый метод, должен обращаться к 'events.db' и брать инфу оттуда
+    def get_event_data(event_id):
+        query = f"""SELECT Categories FROM Event_to_Category WHERE EventID == "{event_id}" """
+        result = eventsDB.executequery(query)[0][0]
+        event_data=dict(
+            event_id=event_id,
+            categories=result.split(';'),
+            name='Название события',
+            desc='Описание события',
+            cost=0, #Цена события
+            date=dict(
+                day=datetime.now().day,
+                month=datetime.now().month,
+                year=datetime.now().year
+                ),
+            location='Ул. Пушкина, Д. Колотушкина',
+            program='Программа мероприятия. Вероятно, должна быть в JSON, но мне лень. затычка.',
+            author='Автор события. в VL.RU есть странички у организаторов. затычка. мб ссылку сюда.',
+            likes=random.randint(0,100),
+            dislikes=random.randint(0,50),
+            views=random.randint(0,5000)
+        )
+        return event_data
