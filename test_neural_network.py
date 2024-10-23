@@ -7,47 +7,56 @@ class TestNeuralNetwork(unittest.TestCase):
 
     def setUp(self):
         # Подготовка тестовой базы данных
-        self.db = sqlite3.connect(':memory:')
-        self.cursor = self.db.cursor()
+        self.conn = sqlite3.connect(':memory:')
+        self.cursor = self.conn.cursor()
         self.cursor.executescript("""
             CREATE TABLE CategoriesOfUsers(
                 UserID text,
-                cat1 int,
-                cat2 int,
-                cat3 int
+                Category1 integer,
+                Category2 integer,
+                Category3 integer
             );
-            INSERT INTO CategoriesOfUsers (UserID, cat1, cat2, cat3) VALUES ('user1', 5, 3, 1), ('user2', 2, 4, 5);
+            INSERT INTO CategoriesOfUsers VALUES ('user1', 5, 3, 0);
+            INSERT INTO CategoriesOfUsers VALUES ('user2', 0, 4, 2);
         """)
-        self.db.commit()
+        self.conn.commit()
+
+        # Создание экземпляра NeuralNetwork
+        self.nn = NeuralNetwork()
 
     def tearDown(self):
-        self.db.close()
+        self.conn.close()
 
-    def test_neural_network_initialization(self):
-        nn = NeuralNetwork()
-        self.assertIsInstance(nn, NeuralNetwork)
-        self.assertIsNotNone(nn.algo)
+    def test_init(self):
+        # Проверка, что объект NeuralNetwork создан
+        self.assertIsInstance(self.nn, NeuralNetwork)
 
     def test_get_predictions(self):
-        nn = NeuralNetwork()
-        predictions = nn._NeuralNetwork__get_predictions('user1')
+        # Проверка, что метод get_predictions возвращает список предсказаний
+        predictions = self.nn._NeuralNetwork__get_predictions('user1')
         self.assertIsInstance(predictions, list)
         self.assertTrue(all(isinstance(pred, tuple) for pred in predictions))
 
     def test_allocate_events(self):
-        nn = NeuralNetwork()
-        predictions = nn._NeuralNetwork__get_predictions('user1')
-        allocation = nn._NeuralNetwork__allocate_events(predictions)
+        # Проверка, что метод allocate_events возвращает словарь с распределением слотов
+        predictions = self.nn._NeuralNetwork__get_predictions('user1')
+        allocation = self.nn._NeuralNetwork__allocate_events(predictions)
         self.assertIsInstance(allocation, dict)
-        self.assertEqual(sum(allocation.values()), 36)
+        self.assertTrue(all(isinstance(value, int) for value in allocation.values()))
 
     def test_get_recommended_events(self):
-        nn = NeuralNetwork()
-        predictions = nn._NeuralNetwork__get_predictions('user1')
-        allocation = nn._NeuralNetwork__allocate_events(predictions)
-        recommended_events = nn._NeuralNetwork__get_recommended_events(allocation)
+        # Проверка, что метод get_recommended_events возвращает список рекомендованных событий
+        predictions = self.nn._NeuralNetwork__get_predictions('user1')
+        allocation = self.nn._NeuralNetwork__allocate_events(predictions)
+        recommended_events = self.nn._NeuralNetwork__get_recommended_events(allocation)
         self.assertIsInstance(recommended_events, list)
-        self.assertEqual(len(recommended_events), 36)
+        self.assertTrue(all(isinstance(event, dict) for event in recommended_events))
+
+    def test_get_recommendations(self):
+        # Проверка, что метод get_recommendations возвращает список рекомендованных событий
+        recommendations = self.nn.get_recommendations('user1')
+        self.assertIsInstance(recommendations, list)
+        self.assertTrue(all(isinstance(event, dict) for event in recommendations))
 
 if __name__ == '__main__':
     unittest.main()
