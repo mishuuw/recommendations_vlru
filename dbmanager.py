@@ -147,7 +147,7 @@ class eventsDB:
     def get_random_events():
         query = f"""SELECT EventID FROM Event_to_Category"""
         result = eventsDB.executequery(query)
-        events = [event[0] for event in result]
+        events = [event[0] for event in result]; del result
         events = random.choices(events, k=700)
         return [eventsDB.get_event_data(event) for event in events]
 

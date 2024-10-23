@@ -126,7 +126,7 @@ class NeuralNetwork:
                             ::-1]:  # Переворачиваю, т.к. (как мне показалось) главные категории справа.
                 if category in allocation:
                     categorized_events[category].append(event)
-        recommended_events = []
+        recommended_events = []; del events
         used_events = set()
 
         while len(recommended_events) < allocation_slots:
@@ -165,5 +165,5 @@ class NeuralNetwork:
     def get_recommendations(self, user_id):
         predictions = self.__get_predictions(user_id)
         allocation = self.__allocate_events(predictions)
-        recommendations = self.__get_recommended_events(allocation)
+        recommendations = self.__get_recommended_events(allocation); del predictions; del allocation
         return recommendations
