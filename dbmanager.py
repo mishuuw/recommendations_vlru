@@ -158,7 +158,7 @@ class eventsDB:
         event_data=dict(
             event_id=event_id,
             categories=result.split(';'),
-            name='Название события',
+            name=result.split(';')[::-1][0],
             desc='Описание события',
             cost=0, #Цена события
             date=dict(
