@@ -274,7 +274,7 @@ import BasesView from './BasesView.vue';
     background-color: #ECECECcf;
     padding: 10px;
     border-radius: 10px;
-    margin-top: 200px;
+    margin-top: 75px;
   }
 
   .bases {

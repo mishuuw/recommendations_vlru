@@ -6,7 +6,7 @@
       </div>
       <form @submit.prevent="handleSubmit">
         <div class="form-group">
-          <label for="login">Имя пользователя или почти:</label>
+          <label for="login">Имя пользователя или электронная почта:</label>
           <input
             type="text"
             id="login"

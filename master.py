@@ -142,6 +142,5 @@ CORS(app)
 if __name__ == '__main__':
     if 'AI' not in globals():  # Убедитесь, что объект создается один раз
         AI = NeuralNetwork()
-
     # Запуск приложения с отключенным reloader'ом для избежания двойной инициализации
     app.run(debug=True, use_reloader=False)

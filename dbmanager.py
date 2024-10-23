@@ -161,14 +161,9 @@ class eventsDB:
             title=result.split(';')[::-1][0],
             desc='Описание события',
             cost=0, #Цена события
-            date=dict(
-                min=datetime.now().minute + random.randint(0,60),
-                hour=datetime.now().hour + random.randint(0,60),
-                day=datetime.now().day + random.randint(0,5),
-                month=datetime.now().month,
-                year=datetime.now().year
-                ),
-            location='Ул. Пушкина, Д. Колотушкина',
+            date=datetime.now().strftime("%d/%m/%Y"),
+            time=datetime.now().strftime("%H:%M"),
+            location=f'Ул. Пушкина, Д. {random.randint(0,50)}',
             program='Программа мероприятия. Вероятно, должна быть в JSON, но мне лень. затычка.',
             author='Автор события. в VL.RU есть странички у организаторов. затычка. мб ссылку сюда.',
             likes=random.randint(0,100),
