@@ -42,6 +42,12 @@ class NeuralNetwork:
         :return:
         '''
 
+        if user_id == '0'*32: #рекомендации рандомного юзера для пользователей без аккаунта
+            conn = sqlite3.connect('ratings.db')
+            c = conn.cursor()
+            result = c.execute("""SELECT UserID FROM CategoriesOfUsers""").fetchall()
+            user_id = random.choice(result)[0]; conn.close(); del result
+
         n_known = floor(num_recommendations*old_to_new_ratio)
         n_new = num_recommendations-n_known
 
@@ -163,7 +169,7 @@ class NeuralNetwork:
         return recommended_events
 
     def get_recommendations(self, user_id):
-        predictions = self.__get_predictions(user_id)
-        allocation = self.__allocate_events(predictions)
+        predictions = self.__get_predictions(user_id); print('Predictions Done.')
+        allocation = self.__allocate_events(predictions); print('Allocation Done.')
         recommendations = self.__get_recommended_events(allocation); del predictions; del allocation
         return recommendations
