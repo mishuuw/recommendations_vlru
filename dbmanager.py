@@ -158,11 +158,13 @@ class eventsDB:
         event_data=dict(
             event_id=event_id,
             categories=result.split(';'),
-            name=result.split(';')[::-1][0],
+            title=result.split(';')[::-1][0],
             desc='Описание события',
             cost=0, #Цена события
             date=dict(
-                day=datetime.now().day,
+                min=datetime.now().minute + random.randint(0,60),
+                hour=datetime.now().hour + random.randint(0,60),
+                day=datetime.now().day + random.randint(0,5),
                 month=datetime.now().month,
                 year=datetime.now().year
                 ),

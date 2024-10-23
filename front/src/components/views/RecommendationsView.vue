@@ -118,10 +118,9 @@ export default {
         userID: '00000000000000000000000000000000'
       }
     })
-    .then(function (response) {
+    .then((response) => {
         console.log(response);
-
-        this.events = JSON.parse(response)
+        this.events = response.data
     })
     .catch(function (error) {
         console.log(error);
